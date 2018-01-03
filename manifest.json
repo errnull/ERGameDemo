@@ -11,6 +11,8 @@
 	],
 	"game": [
 		"bin-debug/Main.js",
-		"bin-debug/svga/Parser.js"
+		"bin-debug/svga/MockWorker.js",
+		"bin-debug/svga/Parser.js",
+		"bin-debug/svga/Proto.js"
 	]
 }

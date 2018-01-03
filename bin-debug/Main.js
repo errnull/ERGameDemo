@@ -28,9 +28,10 @@ var Main = (function (_super) {
             egret.ticker.resume();
         };
         var parser = new Parser();
-        parser.load("Hello");
+        parser.load('https://raw.githubusercontent.com/yyued/SVGA-Samples/master/rose.svga', function (videoItem) {
+            console.log(videoItem);
+        }, function (error) { });
     };
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
-//# sourceMappingURL=Main.js.map

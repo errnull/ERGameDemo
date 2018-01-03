@@ -18,6 +18,8 @@ class Main extends eui.UILayer {
         }
 
         let parser = new Parser()
-        
+        parser.load('https://raw.githubusercontent.com/yyued/SVGA-Samples/master/rose.svga', function(videoItem){
+            console.log(videoItem)
+        }, function(error){})
     }
 }
