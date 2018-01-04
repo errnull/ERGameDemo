@@ -27,9 +27,13 @@ class MockWorker {
     private load_viaProto(arraybuffer: any, success: any, failure: any) {
         try {
 
-            let buffer = <ArrayBuffer>arraybuffer
-            let inflate = new Zlib.Inflate(new Uint8Array(buffer))
-            let outbuffer = inflate.decompress()
+            let protoBufDecoder = new ProtoBufDecoder()
+            let inflate = new Zlib.Inflate(new Uint8Array(arraybuffer))
+            let movieData = protoBufDecoder.decode(inflate.decompress())
+            let images = {};
+
+            this.loadImages(images, undefined, movieData, success)
+
 
         } catch (error) {
             this.failure && this.failure(error)
@@ -37,5 +41,30 @@ class MockWorker {
             throw error
         }
 
+    }
+
+    private loadImages(images: any, zip: any, movieData: any, success: any) {
+        if(true){
+
+            for(let key in movieData.images){
+                let element = movieData.images[key];
+                let value = this.Uint8ToString(element)
+                images[key] = btoa(value)
+            }
+        }
+
+        success({
+            movie: movieData,
+            images
+        })
+    }
+
+    private Uint8ToString(u8a: any){
+        var CHUNK_SZ = 0x8000;
+        var c = [];
+        for (var i = 0; i < u8a.length; i += CHUNK_SZ) {
+            c.push(String.fromCharCode.apply(null, u8a.subarray(i, i + CHUNK_SZ)));
+        }
+        return c.join("");
     }
 }

@@ -23,9 +23,11 @@ var MockWorker = (function () {
     };
     MockWorker.prototype.load_viaProto = function (arraybuffer, success, failure) {
         try {
-            var buffer = arraybuffer;
-            var inflate = new Zlib.Inflate(new Uint8Array(buffer));
-            var outbuffer = inflate.decompress();
+            var protoBufDecoder = new ProtoBufDecoder();
+            var inflate = new Zlib.Inflate(new Uint8Array(arraybuffer));
+            var movieData = protoBufDecoder.decode(inflate.decompress());
+            var images = {};
+            this.loadImages(images, undefined, movieData, success);
         }
         catch (error) {
             this.failure && this.failure(error);
@@ -33,6 +35,28 @@ var MockWorker = (function () {
             throw error;
         }
     };
+    MockWorker.prototype.loadImages = function (images, zip, movieData, success) {
+        if (true) {
+            for (var key in movieData.images) {
+                var element = movieData.images[key];
+                var value = this.Uint8ToString(element);
+                images[key] = btoa(value);
+            }
+        }
+        success({
+            movie: movieData,
+            images: images
+        });
+    };
+    MockWorker.prototype.Uint8ToString = function (u8a) {
+        var CHUNK_SZ = 0x8000;
+        var c = [];
+        for (var i = 0; i < u8a.length; i += CHUNK_SZ) {
+            c.push(String.fromCharCode.apply(null, u8a.subarray(i, i + CHUNK_SZ)));
+        }
+        return c.join("");
+    };
     return MockWorker;
 }());
 __reflect(MockWorker.prototype, "MockWorker");
+//# sourceMappingURL=MockWorker.js.map

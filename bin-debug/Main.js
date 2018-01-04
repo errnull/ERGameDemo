@@ -14,24 +14,17 @@ var __extends = (this && this.__extends) || (function () {
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
+        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.playAnimation, _this);
+        return _this;
     }
-    Main.prototype.createChildren = function () {
-        _super.prototype.createChildren.call(this);
-        egret.lifecycle.addLifecycleListener(function (context) {
-            // custom lifecycle plugin
-        });
-        egret.lifecycle.onPause = function () {
-            egret.ticker.pause();
-        };
-        egret.lifecycle.onResume = function () {
-            egret.ticker.resume();
-        };
+    Main.prototype.playAnimation = function (event) {
         var parser = new Parser();
-        parser.load('https://raw.githubusercontent.com/yyued/SVGA-Samples/master/rose.svga', function (videoItem) {
-            console.log(videoItem);
+        var player = new parser.load('https://raw.githubusercontent.com/yyued/SVGA-Samples/master/rose.svga', function (videoItem) {
+            console.log("ProtoBufDecoder.ssss");
         }, function (error) { });
     };
     return Main;
-}(eui.UILayer));
+}(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map
